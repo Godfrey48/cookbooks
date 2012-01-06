@@ -68,41 +68,21 @@ end
 
 end
 
-if app["database_master_role"]
-  dbm = nil
-  # If we are the database master
-  if node.run_list.roles.include?(app["database_master_role"][0])
-    dbm = node
-  else
-  # Find the database master
-    results = search(:node, "role:#{app["database_master_role"][0]} AND chef_environment:#{node.chef_environment}", nil, 0, 1)
-    rows = results[0]
-    if rows.length == 1
-      dbm = rows[0]
-    end
-  end
-
-  # Assuming we have one...
-  if dbm
     template "#{app['deploy_to']}/shared/#{app['id']}.xml" do
-      source "context.xml.erb"
+    source "context.xml.erb"
+
       owner app["owner"]
       group app["group"]
       mode "644"
       variables(
-        :host => (dbm.attribute?('cloud') ? dbm['cloud']['local_ipv4'] : dbm['ipaddress']),
         :app => app['id'],
-        :database => app['databases'][node.chef_environment],
         :war => "#{app['deploy_to']}/releases/#{app['war'][node.chef_environment]['checksum']}.war"
       )
     end
-  end
-end
 
 ## Then, deploy
 remote_file app['id'] do
   path "#{app['deploy_to']}/releases/#{app['war'][node.chef_environment]['checksum']}.war"
   source app['war'][node.chef_environment]['source']
   mode "0644"
-  checksum app['war'][node.chef_environment]['checksum']
 end
