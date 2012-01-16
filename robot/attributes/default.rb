@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: robot
-# Recipe:: default
+# default attributes
 #
 # Copyright 2012, Pavlo Baron (pb[at]pbit[org])
 #
@@ -16,21 +16,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-remote_file "#{Chef::Config[:file_cache_path]}/robot.tar.gz" do
-  source "http://robotframework.googlecode.com/files/robotframework-#{node['robot']['version']}.tar.gz"
-  mode "0644"
-end
-
-execute "gzip & tar" do
-  command "cd #{Chef::Config[:file_cache_path]}; gzip -cd robot.tar.gz | tar xfv -; mv robotframework-#{node['robot']['version']} /opt/robot"
-  action :run
-end
-
-execute "install" do
-  command "cd /opt/robot; python setup.py install"
-  action :run
-end
-
-#execute "run test" do
-#  command ""
-#end
+default['robot']['version'] = "2.7a1"
