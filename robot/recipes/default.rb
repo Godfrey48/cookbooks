@@ -31,14 +31,3 @@ execute "install" do
   command "cd /opt/robot; python setup.py install"
   action :run
 end
-
-# geht entweder nur über files/ per cookbook_file oder viel besser: per url, und apache muss lokal fahren
-
-remote_file "#{Chef::Config[:file_cache_path]}/#{node['robot']['test']}.txt" do
-  path "#{node['robot']['testpath']}/#{node['robot']['test']}.txt"
-  mode "0644"
-end
-
-execute "run test" do
-  command "pybot #{Chef::Config[:file_cache_path]}/#{node['robot']['test']}.txt"
-end

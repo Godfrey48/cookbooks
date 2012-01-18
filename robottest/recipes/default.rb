@@ -1,6 +1,6 @@
-# -*- coding: undecided -*-
+# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: robot
+# Cookbook Name:: robottest
 # Recipe:: default
 #
 # Copyright 2012, Pavlo Baron (pb[at]pbit[org])
@@ -17,28 +17,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-remote_file "#{Chef::Config[:file_cache_path]}/robot.tar.gz" do
-  source "http://robotframework.googlecode.com/files/robotframework-#{node['robot']['version']}.tar.gz"
+remote_file "#{Chef::Config[:file_cache_path]}/#{node['robottest']['archive']}" do
+  source "#{node['robottest']['urlbase']}/#{node['robottest']['archive']}"
   mode "0644"
 end
 
-execute "gzip & tar" do
-  command "cd #{Chef::Config[:file_cache_path]}; gzip -cd robot.tar.gz | tar xfv -; mv robotframework-#{node['robot']['version']} /opt/robot"
-  action :run
-end
-
-execute "install" do
-  command "cd /opt/robot; python setup.py install"
-  action :run
-end
-
-# geht entweder nur über files/ per cookbook_file oder viel besser: per url, und apache muss lokal fahren
-
-remote_file "#{Chef::Config[:file_cache_path]}/#{node['robot']['test']}.txt" do
-  path "#{node['robot']['testpath']}/#{node['robot']['test']}.txt"
-  mode "0644"
+execute "unpack" do
+  command "cd #{Chef::Config[:file_cache_path]}; gzip -cd #{node['robottest']['archive']} | tar xfv -"
 end
 
 execute "run test" do
-  command "pybot #{Chef::Config[:file_cache_path]}/#{node['robot']['test']}.txt"
+  command "cd #{Chef::Config[:file_cache_path]}; #{node['robottest']['runner']}ybot ./#{node['robottest']['test']}"
 end
