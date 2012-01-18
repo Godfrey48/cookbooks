@@ -18,10 +18,10 @@ robot (with all its dependencies)
 Attributes
 ==========
 
-runner - "j" or "p" as in "jybot" / "pybot"
-urlbase - the HTTP base path where to get test archives from
-archive - the name of the tar.gz file which contains all test relevant files
-test - test spec file to run, relative to the .. of the tar base folder
+runner - "j" or "p" as in "jybot" / "pybot"  
+urlbase - the HTTP base path where to get test archives from  
+archive - the name of the tar.gz file which contains all test relevant files  
+test - test spec file to run, relative to the .. of the tar base folder  
 
 Usage
 =====
