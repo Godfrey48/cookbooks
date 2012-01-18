@@ -20,14 +20,11 @@ The rest (robotframework etc.) will be installed through its recipes.
 Attributes
 ==========
 
-TODO: version
+robot.version - the version of the framework which will be downloaded and installed
 
 Usage
 =====
 
-You need a databag containing all test definitions and dependencies.
-
-What you can do with it? You need to know about acceptance test automation and how they
-are implemented/supported by the Robot Framework. When you know this, you will also know
-that acceptance tests can be very slow. If you have a chance to run parts of your whole
-suites on different machines in parallel, this cookbook will help you do so.
+What you can do with it? You can install the robot framework with its all dependencies and
+get ready to run distributed acceptance tests. Of course it's also possible to provision
+robot to one single machine and run tests there.
