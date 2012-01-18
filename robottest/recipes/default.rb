@@ -27,5 +27,5 @@ execute "unpack" do
 end
 
 execute "run test" do
-  command "cd #{Chef::Config[:file_cache_path]}; #{node['robottest']['runner']}ybot ./#{node['robottest']['test']} -d /var/www"
+  command "cd #{Chef::Config[:file_cache_path]}; #{node['robottest']['runner']}ybot ./#{node['robottest']['test']}"
 end
